@@ -63,6 +63,17 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:Y29tcGxleC1zZWNyZXQta2V5LWZvci1qd3Qtc2lnbmluZy1hdC1sZWFzdC0zMmJ5dGVzLWxvbmc=}
+  access-token-expiration: ${JWT_ACCESS_TOKEN_EXPIRATION:3600000}
+  refresh-token-expiration: ${JWT_REFRESH_TOKEN_EXPIRATION:86400000}
+
+# Security Configuration
+security:
+  max-login-attempts: ${MAX_LOGIN_ATTEMPTS:5}
+  lockout-duration-minutes: ${LOCKOUT_DURATION_MINUTES:30}
+
 ---
 spring:
   config:
