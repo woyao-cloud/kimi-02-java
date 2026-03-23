@@ -1,12 +1,10 @@
-version: '3.8'
-
 services:
   # =============================================
   # PostgreSQL 15 - 主数据库
   # =============================================
   postgres:
-    image: postgres:15-alpine
-    container_name: usermanagement-pg
+    image: postgres:18
+    container_name: usermanagement-pg2
     restart: unless-stopped
     environment:
       POSTGRES_DB: usermanagement
@@ -25,7 +23,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - usermanagement-network
+      - usermanagement-network2
     command:
       - "postgres"
       - "-c"
@@ -66,7 +64,7 @@ services:
   # =============================================
   postgres-test:
     image: postgres:18
-    container_name: usermanagement-pg-test
+    container_name: usermanagement-pg2-test
     restart: unless-stopped
     environment:
       POSTGRES_DB: usermanagement_test
@@ -82,7 +80,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - usermanagement-network
+      - usermanagement-network2
     profiles:
       - test
 
@@ -91,7 +89,7 @@ services:
   # =============================================
   redis:
     image: redis:6.2
-    container_name: usermanagement-redis
+    container_name: usermanagement-redis2
     restart: unless-stopped
     ports:
       - "${REDIS_PORT:-6379}:6379"
@@ -105,7 +103,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - usermanagement-network
+      - usermanagement-network2
     sysctls:
       - net.core.somaxconn=511
 
@@ -124,7 +122,7 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - usermanagement-network
+      - usermanagement-network2
     profiles:
       - dev
       - full
@@ -148,7 +146,7 @@ services:
       postgres:
         condition: service_healthy
     networks:
-      - usermanagement-network
+      - usermanagement-network2
     profiles:
       - dev
       - full
@@ -182,7 +180,7 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - usermanagement-network
+      - usermanagement-network2
     profiles:
       - full
 
@@ -203,7 +201,7 @@ services:
     depends_on:
       - backend
     networks:
-      - usermanagement-network
+      - usermanagement-network2
     profiles:
       - full
 
@@ -224,8 +222,5 @@ volumes:
 # 网络
 # =============================================
 networks:
-  usermanagement-network:
+  usermanagement-network2:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.20.0.0/16
